@@ -38,6 +38,16 @@ const actions = {
         } catch (err) {
             commit("auth_error", err);
         }
+    },
+
+    // Logout User
+    async logout({ commit }) {
+        await localStorage.removeItem("token");
+        // localStorage.removeItem('userID');
+        commit("logout");
+        delete axios.defaults.headers.common["Authorization"];
+
+        return;
     }
 };
 
@@ -54,6 +64,11 @@ const mutations = {
     },
     auth_error(state, error) {
         state.login_error = error.response.data.message;
+    },
+    logout(state) {
+        state.error = null;
+        state.status = "";
+        (state.token = ""), (state.user = "");
     }
 };
 

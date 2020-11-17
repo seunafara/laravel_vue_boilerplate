@@ -5,6 +5,7 @@
             <input type="password" v-model="password" placeholder="password" />
             <button type="submit">Login</button>
         </form>
+        <button @click.prevent="logoutUser">Logout</button>
     </div>
 </template>
 
@@ -18,7 +19,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["login"]),
+        ...mapActions(["login", "logout"]),
         loginUser() {
             let user = {
                 email: this.email.toLowerCase(),
@@ -27,6 +28,9 @@ export default {
             this.login(user).then(res => {
                 console.log(res);
             });
+        },
+        logoutUser() {
+            this.logout();
         }
     }
 };

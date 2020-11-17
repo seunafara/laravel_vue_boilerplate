@@ -26,6 +26,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -34,7 +35,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       password: ""
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["login"])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["login", "logout"])), {}, {
     loginUser: function loginUser() {
       var user = {
         email: this.email.toLowerCase(),
@@ -43,6 +44,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.login(user).then(function (res) {
         console.log(res);
       });
+    },
+    logoutUser: function logoutUser() {
+      this.logout();
     }
   })
 });
@@ -120,6 +124,19 @@ var render = function() {
         _vm._v(" "),
         _c("button", { attrs: { type: "submit" } }, [_vm._v("Login")])
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.logoutUser($event)
+          }
+        }
+      },
+      [_vm._v("Logout")]
     )
   ])
 }

@@ -23,5 +23,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/register', [UserController::class, 'register']);
+    Route::post('/reset-password', [UserController::class, 'reset_pass']);
     Route::get('/logout', [UserController::class, 'logout'])->middleware('auth:api');
 });

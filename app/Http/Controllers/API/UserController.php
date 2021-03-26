@@ -9,6 +9,8 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
+use Webpatser\Uuid\Uuid;
+
 class UserController extends Controller
 {
     /**
@@ -85,6 +87,7 @@ class UserController extends Controller
         }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
+        $input['reset-uuid'] = Uuid::generate()->string;
         $user = User::create($input);
         $token = $user->createToken('appToken')->accessToken;
         return response()->json([
@@ -110,8 +113,55 @@ class UserController extends Controller
           return response()->json([
             'success' => false,
             'message' => 'Invalid Email or Password',
-        ], 401);
+        ], 404);
         }
+    }
+
+    // USER RESET FUNCTION
+    public function reset_pass(Request $request) {
+
+      $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+    ]);
+    if ($validator->fails()) {
+      return response()->json([
+        'success' => false,
+        'message' => $validator->errors(),
+      ], 400);
+    }
+        
+      //Find user via email provided
+      
+      $user = User::where('email', '=', $request->email)->firstOrFail();
+      if(user){
+        // continue
+      } else {
+         //if authentication is unsuccessfull, notice how I return json parameters
+         return response()->json([
+          'success' => false,
+          'message' => 'Invalid Email',
+      ], 404);
+      }
+
+
+
+
+  //     if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+  //       $user = Auth::user();
+  //       $token = $user->createToken('appToken')->accessToken;
+  //      //After successfull authentication, notice how I return json parameters
+  //       return response()->json([
+  //         'success' => true,
+  //         'token' => $token,
+  //         'user' => $user
+  //     ]);
+  //   } else {
+  //  //if authentication is unsuccessfull, notice how I return json parameters
+  //     return response()->json([
+  //       'success' => false,
+  //       'message' => 'Invalid Email or Password',
+  //   ], 401);
+  //   }
     }
 
     // USER LOGOUT FUNCTION

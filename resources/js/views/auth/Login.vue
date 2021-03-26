@@ -1,11 +1,11 @@
 <template>
     <div>
         <form @submit.prevent="loginUser">
-            <input type="text" v-model="email" placeholder="email" />
+            <input type="email" v-model="email" placeholder="email" />
             <input type="password" v-model="password" placeholder="password" />
             <button type="submit">Login</button>
         </form>
-        <button @click.prevent="logoutUser">Logout</button>
+        <button @submit.prevent="logoutUser">Logout</button>
     </div>
 </template>
 

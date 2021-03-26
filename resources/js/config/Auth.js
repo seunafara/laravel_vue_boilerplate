@@ -40,6 +40,30 @@ const actions = {
         }
     },
 
+    async reset_password({ commit }, data) {
+        commit("default_request");
+        try {
+            let res = await axios.post(`/api/v1/reset-password`, data);
+            console.log(res);
+            commit("default_success");
+            // if (res.data.success) {
+            //     const token = res.data.token;
+            //     const user = res.data.user;
+            //     // Store token into localstorage
+            //     localStorage.setItem("token", token);
+            //     //Set axios defauts
+            //     axios.defaults.headers.common["Authorization"] = token;
+            //     commit("auth_success", token, user);
+            // }
+
+            //   localStorage.setItem('loginPhoto', res.data.user.photo);
+
+            return res;
+        } catch (err) {
+            commit("default_error", err);
+        }
+    },
+
     // Logout User
     async logout({ commit }) {
         await localStorage.removeItem("token");
@@ -63,6 +87,17 @@ const mutations = {
         state.error = null;
     },
     auth_error(state, error) {
+        state.login_error = error.response.data.message;
+    },
+    default_request(state) {
+        state.error = null;
+        state.status = "loading";
+    },
+    default_success(state) {
+        state.status = "success";
+        state.error = null;
+    },
+    default_error(state, error) {
         state.login_error = error.response.data.message;
     },
     logout(state) {
